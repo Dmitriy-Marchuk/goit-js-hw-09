@@ -7,6 +7,8 @@ const refs = {
   step: document.querySelector('[name="step"]'),
 };
 
+
+
 refs.form.addEventListener('submit', handleSubmit);
 
 function handleSubmit(e) {

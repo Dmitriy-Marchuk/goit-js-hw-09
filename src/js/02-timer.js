@@ -1,6 +1,8 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
+
 const refs = {
     btnStart: document.querySelector('[data-start]'),
     dataDays: document.querySelector('[data-days]'),
@@ -12,7 +14,7 @@ let selectedDate = null;
 let timerId = null;
 refs.btnStart.disabled = true;
 
-
+    
 const options = {
     enableTime: true,
     time_24hr: true,
@@ -32,17 +34,20 @@ refs.btnStart.addEventListener('click', startTimer);
 function startTimer() {
     timerId = setInterval(updateClockFace, 1000);
     refs.btnStart.disabled = true;
+    
 };
+
 
 function updateClockFace() {
     const currentTime = Date.now();
     const deltaTime = selectedDate - currentTime;
     const endtime = convertMs(deltaTime);
     
-    if (selectedDate <= 1000) {
-    clearInterval(timerId);
-  }
-    
+    if (deltaTime <= 1000) {
+        clearInterval(timerId);
+        console.log('time is over');
+    };
+
     refs.dataDays.innerHTML = pad(endtime.days);
     refs.dataHours.innerHTML = pad(endtime.hours);
     refs.dataMinutes.innerHTML = pad(endtime.minutes);
@@ -54,6 +59,7 @@ function checkDate(selectedDates) {
 
     if (selectedDate > currentDate ) {
         refs.btnStart.disabled = false;
+        
     } else {
         Notify.failure("Please choose a date in the future");
         refs.btnStart.disabled = true;
